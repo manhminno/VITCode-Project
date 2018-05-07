@@ -18,7 +18,6 @@ int nmember = 0;
 InfoMember *InitInfoMember();
 InfoMember **InitListInfoMember(int length);
 void ShowInfoMember(InfoMember member);
-void ChangeInfoMember(InfoMember *member, int id, char *name, int age, int group_id);
 void ShowChangeInfoMember(InfoMember **member);
 void InputInfoMember(InfoMember *member);
 void AddInfoMember(InfoMember **members);
