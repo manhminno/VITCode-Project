@@ -85,7 +85,7 @@ void ShowChangeInfoMember(InfoMember **members){
     	scanf("%d", &index);
     	if (index >= nmember || index < 0)
     		printf("Nhap qua index cho phep, moi ban nhap lai.\n");
-    } while(index >= nmember);
+    } while(index >= nmember || index < 0);
 
     //in màn hình và nhập dữ liệu sửa
     printf("Thong tin thanh vien tai vi tri %d\n", index);
