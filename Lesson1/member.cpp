@@ -73,7 +73,7 @@ InfoMember **InitListInfoMember(int length){
 //hiển thị thông tin member
 void ShowInfoMember(InfoMember member){
     //in ra màn hình
-    printf("%d\t%s\t%d\t%d\n",member.id, member.name, member.age, member.group_id );
+    printf("Name: %d\tID: %s\t Age: %d\t Group_ID: %d\n", member.name ,member.id, member.age, member.group_id );
 }
 
 //In màn hình và nhập thay đổi giá trị member vị trí index
@@ -83,13 +83,13 @@ void ShowChangeInfoMember(InfoMember **members){
     do {
     	printf("Nhap index: ");
     	scanf("%d", &index);
-    	if (index >= nmember)
+    	if (index >= nmember || index < 0)
     		printf("Nhap qua index cho phep, moi ban nhap lai.\n");
     } while(index >= nmember);
 
     //in màn hình và nhập dữ liệu sửa
     printf("Thong tin thanh vien tai vi tri %d\n", index);
-    ShowInfoMember((*members)[index]);
+    ShowInfoMember(*(members)[index]);
 
     printf("Nhap du lieu sua\n");
     InputInfoMember(members[index]);
