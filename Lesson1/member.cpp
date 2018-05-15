@@ -6,6 +6,8 @@
 #define SIZE_NAME 20
 #define SIZE_MEMBER 200
 
+/* NV: viết hàm ShowInfoMember, ShowChangeInfoMember */
+
 typedef struct InfoMember{
     int id;
     char name[SIZE_NAME];
@@ -71,15 +73,27 @@ InfoMember **InitListInfoMember(int length){
 //hiển thị thông tin member
 void ShowInfoMember(InfoMember member){
     //in ra màn hình
+    printf("Name: %d\tID: %s\t Age: %d\t Group_ID: %d\n", member.name ,member.id, member.age, member.group_id );
 }
 
 //In màn hình và nhập thay đổi giá trị member vị trí index
 void ShowChangeInfoMember(InfoMember **members){
     int index;
     // nhập vị trí index. nếu index sai quay lại việc nhập.
+    do {
+    	printf("Nhap index: ");
+    	scanf("%d", &index);
+    	if (index >= nmember || index < 0)
+    		printf("Nhap qua index cho phep, moi ban nhap lai.\n");
+    } while(index >= nmember || index < 0);
 
     //in màn hình và nhập dữ liệu sửa
+    printf("Thong tin thanh vien tai vi tri %d\n", index);
+    ShowInfoMember(*(members)[index]);
+
+    printf("Nhap du lieu sua\n");
     InputInfoMember(members[index]);
+    
 }
 
 //nhập bàn phím
