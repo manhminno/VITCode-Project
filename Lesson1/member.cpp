@@ -89,7 +89,7 @@ void ShowChangeInfoMember(InfoMember **members){
 
     //in màn hình và nhập dữ liệu sửa
     printf("Thong tin thanh vien tai vi tri %d\n", index);
-    ShowInfoMember(*(members)[index]);
+    ShowInfoMember(*(members[index]));
 
     printf("Nhap du lieu sua\n");
     InputInfoMember(members[index]);
@@ -127,6 +127,12 @@ void FreeInfoMember(InfoMember *member){
 void DeleteInfoMember(InfoMember **members){
     int index;
     // nhập vị trí index. nếu index sai quay lại việc nhập.
+	do {
+    	printf("Nhap index: ");
+    	scanf("%d", &index);
+    	if (index >= nmember || index < 0)
+    		printf("Nhap qua index cho phep, moi ban nhap lai.\n");
+    } while(index >= nmember || index < 0);
 
     FreeInfoMember(members[index]);
     //số chuyển phần tử cuối cùng thành phần tử index
