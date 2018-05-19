@@ -34,7 +34,7 @@ void menu(){
     printf("[1].Xem thanh vien\n" );
     printf("[2].Them thanh vien\n");
     printf("[3].Sua thong tin thanh vien\n");
-    printf("[4].Xoa thanh\n" );
+    printf("[4].Xoa thanh vien\n" );
     printf("[5].Thoat chuong trinh\n" );
     printf("\n");
     printf("==================================\n");
@@ -53,11 +53,7 @@ int main(){
         scanf("%d", &choose);
         switch(choose){
             case 1:
-            //for (int i = 0; i < nmember; i++)
-           // {
-                ShowInfoMember(members);
-            //}
-                
+                ShowInfoMember(members);                
                 break;
             case 2:
                 AddInfoMember(members);
@@ -74,7 +70,7 @@ int main(){
         printf("Ban co muon tiep tuc khong? (Y/N):");
         __fpurge(stdin);
         scanf("%c", &cont);
-    }while(cont == 'y');
+    }while(cont == 'y' || cont == 'Y');
 
     //kết thúc
     //getch();
@@ -115,7 +111,7 @@ void ShowInfoMember(InfoMember **member){
     //in ra màn hình
     for (int i = 0; i < nmember; i++)
     {
-        printf("Name: %d\tID: %s\t Age: %d\t Group_ID: %d\n", 
+        printf("Name: %s\tID: %d\t Age: %d\t Group_ID: %d\n", 
         member[i]->name ,member[i]->id, member[i]->age, member[i]->group_id );
     }
 }
