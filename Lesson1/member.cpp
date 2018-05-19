@@ -1,7 +1,6 @@
 #include <stdio.h>
-#include <conio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <conio.h>
 
 #define SIZE_NAME 20
 #define SIZE_MEMBER 200
