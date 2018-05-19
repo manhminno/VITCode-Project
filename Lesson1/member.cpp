@@ -1,7 +1,8 @@
 #include <stdio.h>
-#include <conio.h>
+//#include <conio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio_ext.h>
 
 #define SIZE_NAME 20
 #define SIZE_MEMBER 200
@@ -21,7 +22,7 @@ int nmember = 0;
 //hàm
 InfoMember *InitInfoMember();
 InfoMember **InitListInfoMember(int length);
-void ShowInfoMember(InfoMember member);
+void ShowInfoMember(InfoMember **member);
 void ShowChangeInfoMember(InfoMember **members);
 void InputInfoMember(InfoMember *member);
 void AddInfoMember(InfoMember **members);
@@ -29,15 +30,54 @@ void FreeInfoMember(InfoMember *member);
 void DeleteInfoMember(InfoMember **members);
 
 
-//main chạy chương trình
+void menu(){
+    printf("[1].Xem thanh vien\n" );
+    printf("[2].Them thanh vien\n");
+    printf("[3].Sua thong tin thanh vien\n");
+    printf("[4].Xoa thanh\n" );
+    printf("[5].Thoat chuong trinh\n" );
+    printf("\n");
+    printf("==================================\n");
+}
 int main(){
     InfoMember **members;
     members = InitListInfoMember(SIZE_MEMBER);
 
     //do something
+    int choose;
+    char cont;
+    do{
+        system("clear");
+        menu();
+        printf("Nhap chuc nang:");
+        scanf("%d", &choose);
+        switch(choose){
+            case 1:
+            //for (int i = 0; i < nmember; i++)
+           // {
+                ShowInfoMember(members);
+            //}
+                
+                break;
+            case 2:
+                AddInfoMember(members);
+                break;
+            case 3:
+                ShowChangeInfoMember(members);
+                break;
+            case 4:
+                DeleteInfoMember(members);
+                break;
+            case 5:
+                break;
+        }
+        printf("Ban co muon tiep tuc khong? (Y/N):");
+        __fpurge(stdin);
+        scanf("%c", &cont);
+    }while(cont == 'y');
 
     //kết thúc
-    getch();
+    //getch();
     return 0;
 }
 
@@ -71,9 +111,13 @@ InfoMember **InitListInfoMember(int length){
 }
 
 //hiển thị thông tin member
-void ShowInfoMember(InfoMember member){
+void ShowInfoMember(InfoMember **member){
     //in ra màn hình
-    printf("Name: %d\tID: %s\t Age: %d\t Group_ID: %d\n", member.name ,member.id, member.age, member.group_id );
+    for (int i = 0; i < nmember; i++)
+    {
+        printf("Name: %d\tID: %s\t Age: %d\t Group_ID: %d\n", 
+        member[i]->name ,member[i]->id, member[i]->age, member[i]->group_id );
+    }
 }
 
 //In màn hình và nhập thay đổi giá trị member vị trí index
@@ -88,8 +132,7 @@ void ShowChangeInfoMember(InfoMember **members){
     } while(index >= nmember || index < 0);
 
     //in màn hình và nhập dữ liệu sửa
-    printf("Thong tin thanh vien tai vi tri %d\n", index);
-    ShowInfoMember(*(members[index]));
+    
 
     printf("Nhap du lieu sua\n");
     InputInfoMember(members[index]);
