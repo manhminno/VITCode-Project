@@ -99,7 +99,14 @@ void ShowChangeInfoMember(InfoMember **members){
 //nhập bàn phím
 void InputInfoMember(InfoMember *member){
     //in màn hình
-
+    printf( "ID: " );
+    scanf( "%d",&member->id );
+    printf( "Name: " );
+    scanf( "%*c%[^\n]s",member->name );
+    printf( "Age: " );
+    scanf( "%d",&member->age );
+    printf( "Group_ID: " );
+    scanf( "%d",&member->group_id);
     //gán vào member
 
 }
