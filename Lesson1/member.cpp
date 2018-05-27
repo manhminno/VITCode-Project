@@ -1,3 +1,4 @@
+//code chay tren Ubuntu de chay tren windows thay the __fpurge(stdin)->fflush(stdin),  bo thu vien stdio_ext
 #include <stdio.h>
 //#include <conio.h>
 #include <stdlib.h>
@@ -28,16 +29,20 @@ void InputInfoMember(InfoMember *member);
 void AddInfoMember(InfoMember **members);
 void FreeInfoMember(InfoMember *member);
 void DeleteInfoMember(InfoMember **members);
+void SearchInfoMember(InfoMember **members);
 
 
 void menu(){
-    printf("[1].Xem thanh vien\n" );
-    printf("[2].Them thanh vien\n");
-    printf("[3].Sua thong tin thanh vien\n");
-    printf("[4].Xoa thanh vien\n" );
-    printf("[5].Thoat chuong trinh\n" );
+    printf("***************************************\n");
+    printf("|=====================================|\n");
+    printf("|[1].Xem thanh vien                   |\n" );
+    printf("|[2].Them thanh vien                  |\n");
+    printf("|[3].Sua thong tin thanh vien         |\n");
+    printf("|[4].Xoa thanh vien                   |\n" );
+    printf("|[5].Tim kiem thong tin thanh vien    |\n" );
+    printf("|[6].Thoat chuong trinh               |\n" );
+    printf("|=====================================|\n");
     printf("\n");
-    printf("==================================\n");
 }
 int main(){
     InfoMember **members;
@@ -65,6 +70,10 @@ int main(){
                 DeleteInfoMember(members);
                 break;
             case 5:
+                SearchInfoMember(members);
+                break;
+            case 6:
+                return 0;
                 break;
         }
         printf("Ban co muon tiep tuc khong? (Y/N):");
@@ -109,10 +118,10 @@ InfoMember **InitListInfoMember(int length){
 //hiển thị thông tin member
 void ShowInfoMember(InfoMember **member){
     //in ra màn hình
+     printf("%-10s %-20s %-10s %-10s\n", "ID", "Name", "Age", "Group_ID" );
     for (int i = 0; i < nmember; i++)
     {
-        printf("Name: %s\tID: %d\t Age: %d\t Group_ID: %d\n", 
-        member[i]->name ,member[i]->id, member[i]->age, member[i]->group_id );
+        printf("%-10d %-20s %-10d %-10d\n", member[i]->id ,member[i]->name, member[i]->age, member[i]->group_id );
     }
 }
 
@@ -121,10 +130,10 @@ void ShowChangeInfoMember(InfoMember **members){
     int index;
     // nhập vị trí index. nếu index sai quay lại việc nhập.
     do {
-    	printf("Nhap index: ");
-    	scanf("%d", &index);
-    	if (index >= nmember || index < 0)
-    		printf("Nhap qua index cho phep, moi ban nhap lai.\n");
+        printf("Nhap index: ");
+        scanf("%d", &index);
+        if (index >= nmember || index < 0)
+            printf("Nhap qua index cho phep, moi ban nhap lai.\n");
     } while(index >= nmember || index < 0);
 
     //in màn hình và nhập dữ liệu sửa
@@ -173,11 +182,11 @@ void FreeInfoMember(InfoMember *member){
 void DeleteInfoMember(InfoMember **members){
     int index;
     // nhập vị trí index. nếu index sai quay lại việc nhập.
-	do {
-    	printf("Nhap index: ");
-    	scanf("%d", &index);
-    	if (index >= nmember || index < 0)
-    		printf("Nhap qua index cho phep, moi ban nhap lai.\n");
+    do {
+        printf("Nhap index: ");
+        scanf("%d", &index);
+        if (index >= nmember || index < 0)
+            printf("Nhap qua index cho phep, moi ban nhap lai.\n");
     } while(index >= nmember || index < 0);
 
     FreeInfoMember(members[index]);
@@ -187,4 +196,27 @@ void DeleteInfoMember(InfoMember **members){
     members[nmember - 1] = NULL;
     //số lượng người - 1
     nmember--;
+}
+void SearchInfoMember(InfoMember **members){
+    char temp[30];
+    int check=0;
+    printf("Nhap thong tin ban muon tim kiem:");
+    __fpurge(stdin);
+    gets(temp);
+    for (int i = 0; i < nmember; i++)
+    {
+        if (members[i]->id==atoi(temp)||strstr(members[i]->name,temp)!=NULL||members[i]->age==atoi(temp)||members[i]->group_id==atoi(temp))
+        {
+            check+=1;
+            if (check==1)
+            {
+                printf("%-10s %-20s %-10s %-10s\n", "ID", "Name", "Age", "Group_ID" );
+            }
+            printf("%-10d %-20s %-10d %-10d\n", members[i]->id ,members[i]->name, members[i]->age, members[i]->group_id );
+        }
+    }
+    if(check==0)
+        {
+            printf("Khong co thong tin nao lien quan den ''%s'' ca!\n", temp );
+        }
 }
