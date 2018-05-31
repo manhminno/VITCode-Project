@@ -3,7 +3,8 @@
 //#include <conio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio_ext.h>
+//#include <stdio_ext.h>
+
 
 #define SIZE_NAME 20
 #define SIZE_MEMBER 200
@@ -30,7 +31,7 @@ void AddInfoMember(InfoMember **members);
 void FreeInfoMember(InfoMember *member);
 void DeleteInfoMember(InfoMember **members);
 void SearchInfoMember(InfoMember **members);
-
+int AddFromFile(InfoMember **members, char *file);
 
 void menu(){
     printf("***************************************\n");
@@ -40,9 +41,9 @@ void menu(){
     printf("|[3].Sua thong tin thanh vien         |\n");
     printf("|[4].Xoa thanh vien                   |\n" );
     printf("|[5].Tim kiem thong tin thanh vien    |\n" );
-    printf("|[6].Thoat chuong trinh               |\n" );
+    printf("|[6].Them thanh vien tu file          |\n" );
+    printf("|[7].Thoat chuong trinh               |\n" );
     printf("|=====================================|\n");
-    printf("\n");
 }
 int main(){
     InfoMember **members;
@@ -52,7 +53,7 @@ int main(){
     int choose;
     char cont;
     do{
-        system("clear");
+        system("cls");
         menu();
         printf("Nhap chuc nang:");
         scanf("%d", &choose);
@@ -73,11 +74,12 @@ int main(){
                 SearchInfoMember(members);
                 break;
             case 6:
-                return 0;
+                char s[] = "members.txt";
+                AddFromFile(members, s);
                 break;
         }
         printf("Ban co muon tiep tuc khong? (Y/N):");
-        __fpurge(stdin);
+        fflush(stdin);
         scanf("%c", &cont);
     }while(cont == 'y' || cont == 'Y');
 
@@ -148,12 +150,16 @@ void ShowChangeInfoMember(InfoMember **members){
 void InputInfoMember(InfoMember *member){
     //in màn hình
     printf( "ID: " );
+    fflush(stdin);
     scanf( "%d",&member->id );
+    fflush(stdin);
     printf( "Name: " );
     scanf( "%*c%[^\n]s",member->name );
     printf( "Age: " );
+    fflush(stdin);
     scanf( "%d",&member->age );
     printf( "Group_ID: " );
+    fflush(stdin);
     scanf( "%d",&member->group_id);
     //gán vào member
 
@@ -201,7 +207,7 @@ void SearchInfoMember(InfoMember **members){
     char temp[30];
     int check=0;
     printf("Nhap thong tin ban muon tim kiem:");
-    __fpurge(stdin);
+    fflush(stdin);
     gets(temp);
     for (int i = 0; i < nmember; i++)
     {
@@ -219,4 +225,45 @@ void SearchInfoMember(InfoMember **members){
         {
             printf("Khong co thong tin nao lien quan den ''%s'' ca!\n", temp );
         }
+}
+
+int AddFromFile(InfoMember **members, char *file)
+{
+    FILE *fp = fopen(file, "r");
+    
+    if (fp == NULL) {
+        printf("Can't open file\n");
+        return -1;
+    }
+
+    while(!feof(fp)){  
+		int id = 0, age = 0, group_id = 0;
+		char name[256], getId[256];
+		
+        if (fgets(name, 256, fp) == NULL){
+        	printf("Error: Loi ten\n");
+        	return -2;
+		}
+		
+		if (fgets(getId, 256, fp) == NULL){
+        	printf("Error: Loi doc id\n");
+        	return -2;
+		}
+		
+		if (sscanf(getId, "%d%d%d", &id, &age, &group_id) < 0){
+        	printf("Error: chuyen so\n");
+        	return -2;
+		}
+		
+		InfoMember *member = InitInfoMember();
+          member->id = id;
+          strcpy(member->name, name);
+          member->age = age;
+          member->group_id = group_id;
+
+          members[nmember] = member;
+          nmember++;
+
+    }
+    printf("OK\n");
 }
