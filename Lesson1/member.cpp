@@ -1,13 +1,10 @@
-#include <stdio.h>
-<<<<<<< HEAD
-#include <string.h>
-#include <conio.h>
-=======
+
+
 //#include <conio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio_ext.h>
->>>>>>> 86280e0e314ffc89c156e1df60bc7025dbdc3633
+
 
 #define SIZE_NAME 20
 #define SIZE_MEMBER 200
@@ -41,7 +38,7 @@ void menu(){
     printf("[2].Them thanh vien\n");
     printf("[3].Sua thong tin thanh vien\n");
     printf("[4].Xoa thanh vien\n" );
-    printf("[5]. Them thanh vien tu file \n");
+    printf("[5].Them thanh vien tu file \n");
     printf("[6.Thoat chuong trinh\n" );
     printf("\n");
     printf("==================================\n");
@@ -72,7 +69,8 @@ int main(){
                 DeleteInfoMember(members);
                 break;
             case 5:
-                AddFromFile(members, "members.txt")
+                char s[] = "members.txt";
+                AddFromFile(members, s);
                 break;
         }
         printf("Ban co muon tiep tuc khong? (Y/N):");
@@ -205,18 +203,22 @@ int AddFromFile(InfoMember **members, char *file)
 {
     FILE *fp = fopen(file, "r");
     int getInt;
-    char line[255];
+    char line[SIZE_NAME];
     InfoMember *member;
 
-    if (fp) {
-        while(1){  
-          if (feof(fp))
-            break;
+    if (fp == NULL) {
+        printf("Can't open file\n");
+        return -1;
+    }
+
+    printf("OK\n");
+    while(!feof(fp)){  
+
           fscanf (fp, "%d", &getInt);
           member->id = getInt;
 
-          fgets(line, sizeof(line), fp);
-          member->name = line;
+          fgets(line, 20, fp);
+          strcpy(member->name, line);
 
           fscanf(fp, "%d", &getInt);
           member->age = getInt;
@@ -228,6 +230,6 @@ int AddFromFile(InfoMember **members, char *file)
           nmember++;
 
         }
-    }
+    
 }
 
