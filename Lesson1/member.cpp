@@ -4,7 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 //#include <stdio_ext.h>
+<<<<<<< HEAD
+=======
 
+>>>>>>> a099be550d75c82852e38eb2d4b0b69a44afdecc
 
 #define SIZE_NAME 20
 #define SIZE_MEMBER 200
@@ -24,7 +27,7 @@ int nmember = 0;
 //hàm
 InfoMember *InitInfoMember();
 InfoMember **InitListInfoMember(int length);
-void ShowInfoMember(InfoMember **member);
+void ShowInfoMember(InfoMember **member,int length);
 void ShowChangeInfoMember(InfoMember **members);
 void InputInfoMember(InfoMember *member);
 void AddInfoMember(InfoMember **members);
@@ -59,7 +62,7 @@ int main(){
         scanf("%d", &choose);
         switch(choose){
             case 1:
-                ShowInfoMember(members);                
+                ShowInfoMember(members, nmember);                
                 break;
             case 2:
                 AddInfoMember(members);
@@ -118,10 +121,11 @@ InfoMember **InitListInfoMember(int length){
 }
 
 //hiển thị thông tin member
-void ShowInfoMember(InfoMember **member){
+void ShowInfoMember(InfoMember **member,int length){
     //in ra màn hình
+    printf("Have %d member:\n", length);
      printf("%-10s %-20s %-10s %-10s\n", "ID", "Name", "Age", "Group_ID" );
-    for (int i = 0; i < nmember; i++)
+    for (int i = 0; i < length; i++)
     {
         printf("%-10d %-20s %-10d %-10d\n", member[i]->id ,member[i]->name, member[i]->age, member[i]->group_id );
     }
@@ -256,6 +260,18 @@ int AddFromFile(InfoMember **members, char *file)
 		}
 		
 		InfoMember *member = InitInfoMember();
+<<<<<<< HEAD
+        member->id = id;
+        for (int i = 0 ; i < strlen(name) ; i++)
+        	if (name[i] == '\n')
+				name[i] = '\0';
+        strcpy(member->name, name);
+        member->age = age;
+        member->group_id = group_id;
+
+        members[nmember] = member;
+        nmember++;
+=======
           member->id = id;
           strcpy(member->name, name);
           member->age = age;
@@ -263,6 +279,7 @@ int AddFromFile(InfoMember **members, char *file)
 
           members[nmember] = member;
           nmember++;
+>>>>>>> a099be550d75c82852e38eb2d4b0b69a44afdecc
 
     }
     printf("OK\n");
