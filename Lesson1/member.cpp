@@ -1,34 +1,15 @@
-#include <stdio.h>
-#include <conio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#define SIZE_NAME 20
-#define SIZE_MEMBER 200
-
-/* NV: viết hàm ShowInfoMember, ShowChangeInfoMember */
-
-typedef struct InfoMember{
-    int id;
-    char name[SIZE_NAME];
-    int age;
-    int group_id;
-} InfoMember;
-
+#include "infor.h"
+#include "file.h"
 //số lượng member
 int nmember = 0;
-//hàm
-InfoMember *InitInfoMember();
-InfoMember **InitListInfoMember(int length);
-void ShowInfoMember(InfoMember **member,int length);
+
+void AddInfoMember(InfoMember **members, int *length);
 void ShowChangeInfoMember(InfoMember **members);
 void InputInfoMember(InfoMember *member);
-void AddInfoMember(InfoMember **members);
 void FreeInfoMember(InfoMember *member);
 void DeleteInfoMember(InfoMember **members);
 void SearchInfoMember(InfoMember **members, InfoMember **listSearchMember);
 int SearchMember(InfoMember **members, InfoMember **listSearchMember, char temp);
-int AddFromFile(InfoMember **members, char *file);
 
 void menu(){
     printf("***************************************\n");
@@ -61,7 +42,7 @@ int main(){
                 ShowInfoMember(members, nmember);
                 break;
             case 2:
-                AddInfoMember(members);
+                AddInfoMember(members, &nmember);
                 break;
             case 3:
                 ShowChangeInfoMember(members);
@@ -74,7 +55,7 @@ int main(){
                 break;
             case 6:
                 char s[] = "members.txt";
-                AddFromFile(members, s);
+                AddFromFile(members, &nmember, s);
                 break;
         }
         printf("Ban co muon tiep tuc khong? (Y/N):");
@@ -87,45 +68,7 @@ int main(){
     return 0;
 }
 
-//Khởi tạo member
-//không cần viết hàm này thêm :)) nhưng thử check xem hàm này đúng ko :v
-InfoMember *InitInfoMember(){
-    //khởi tạo
-    InfoMember *member = (InfoMember*) malloc (sizeof(InfoMember));
 
-    //set 1 số trường
-    member->id = 0;
-    strcpy(member->name, "None");
-    member->age = 0;
-    member->group_id = 0;
-
-    return member;
-}
-
-//Khởi tạo mảng member
-InfoMember **InitListInfoMember(int length){
-    InfoMember **listMember = (InfoMember**) malloc (length * sizeof(InfoMember*));
-
-    //nếu không thể khởi tạo
-    if (listMember == NULL) return listMember;
-    //cho các phần tử NULL
-    for (int i = 0 ; i < length ; i++){
-        listMember[i] = NULL;
-    }
-
-    return listMember;
-}
-
-//hiển thị thông tin member
-void ShowInfoMember(InfoMember **member,int length){
-    //in ra màn hình
-    printf("Have %d member:\n", length);
-    printf("%-10s %-20s %-10s %-10s\n", "ID", "Name", "Age", "Group_ID" );
-    for (int i = 0; i < length; i++)
-    {
-        printf("%-10d %-20s %-10d %-10d\n", member[i]->id ,member[i]->name, member[i]->age, member[i]->group_id );
-    }
-}
 
 //In màn hình và nhập thay đổi giá trị member vị trí index
 void ShowChangeInfoMember(InfoMember **members){
@@ -146,43 +89,20 @@ void ShowChangeInfoMember(InfoMember **members){
 
 }
 
-//nhập bàn phím
-void InputInfoMember(InfoMember *member){
-    //in màn hình
-    printf( "ID: " );
-    fflush(stdin);
-    scanf( "%d",&member->id );
-    fflush(stdin);
-    printf( "Name: " );
-    gets(member->name);
-    printf( "Age: " );
-    fflush(stdin);
-    scanf( "%d",&member->age );
-    printf( "Group_ID: " );
-    fflush(stdin);
-    scanf( "%d",&member->group_id);
-    //gán vào member
-
-}
-
 // thêm người vào mảng
-void AddInfoMember(InfoMember **members){
+void AddInfoMember(InfoMember **members, int *length){
     //nếu vượt quá giới hạn thì ko thêm
-    if (nmember >= SIZE_MEMBER) return;
+    if (*length >= SIZE_MEMBER) return;
 
     //khởi tạo phần tử cuối
-    members[nmember] = InitInfoMember();
+    members[*length] = InitInfoMember();
     //nhập giá trị
-    InputInfoMember(members[nmember]);
+    InputInfoMember(members[*length]);
     //cộng số phần tử thêm 1
-    nmember++;
+    (*length)++;
 }
 
-//free bộ nhớ member
-void FreeInfoMember(InfoMember *member){
-    free(member->name);
-    free(member);
-}
+
 
 //Xóa member tại vị trí index
 void DeleteInfoMember(InfoMember **members){
@@ -228,47 +148,4 @@ void SearchInfoMember(InfoMember **members, InfoMember **listSeachMember){
     else ShowInfoMember(listSeachMember,check);
 }
 
-int AddFromFile(InfoMember **members, char *file)
-{
-    FILE *fp = fopen(file, "r");
 
-    if (fp == NULL) {
-        printf("Can't open file\n");
-        return -1;
-    }
-
-    while(!feof(fp)){
-		int id = 0, age = 0, group_id = 0;
-		char name[256], getId[256];
-
-        if (fgets(name, 256, fp) == NULL){
-        	printf("Error: Loi ten\n");
-        	return -2;
-		}
-
-		if (fgets(getId, 256, fp) == NULL){
-        	printf("Error: Loi doc id\n");
-        	return -2;
-		}
-
-		if (sscanf(getId, "%d%d%d", &id, &age, &group_id) < 0){
-        	printf("Error: chuyen so\n");
-        	return -2;
-		}
-
-		InfoMember *member = InitInfoMember();
-		
-        member->id = id;
-        for (int i = 0 ; i < strlen(name) ; i++)
-        	if (name[i] == '\n')
-				name[i] = '\0';
-        strcpy(member->name, name);
-        member->age = age;
-        member->group_id = group_id;
-
-        members[nmember] = member;
-        nmember++;
-
-    }
-    printf("OK\n");
-}

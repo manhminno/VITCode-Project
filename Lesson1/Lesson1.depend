@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1530600710 source:d:\study\c\vit_coder\vit-coder-member-manager-gr-1\lesson1\member.cpp
+	"infor.h"
+	"file.h"
+
+1530600586 d:\study\c\vit_coder\vit-coder-member-manager-gr-1\lesson1\infor.h
+	<stdio.h>
+	<conio.h>
+	<stdlib.h>
+	<string.h>
+
+1530600642 d:\study\c\vit_coder\vit-coder-member-manager-gr-1\lesson1\file.h
+	"infor.h"
+
