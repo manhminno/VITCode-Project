@@ -3,7 +3,16 @@
 
 #include "infor.h"
 
-int AddFromFile(InfoMember **members, int *nmember)
+
+/*
+    doc tu file
+
+    [IN] members: mang member
+    [IN] nmember: so luong phan tu mang members
+
+    return 1 neu hoan thanh, nho hon 0 ma loi xay ra
+*/
+int ReadFromFile(InfoMember **members, int *nmember)
 {
     FILE *fp = fopen("members.txt", "r");
 
@@ -46,12 +55,23 @@ int AddFromFile(InfoMember **members, int *nmember)
 
     }
     printf("OK\n");
+    return 1;
 }
 
-void AddFile(InfoMember **members, int nmember){
+/*
+    ghi ra file
+
+    [IN] members: mang member
+    [IN] nmember: so luong phan tu mang members
+
+    return void
+*/
+void WriteFile(InfoMember **members, int nmember){
     FILE *file = fopen("members.txt", "a");
+
     for(int i=0; i< nmember; i++){
-        fprintf(file, "\n");
+        if (!feof(file))
+            fprintf(file, "\n");
         fputs(members[i]->name, file);
         fprintf(file, "\n%d %d %d", members[i]->id, members[i]->age, members[i]->group_id);
     }

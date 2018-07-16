@@ -55,10 +55,10 @@ int main(){
                 SearchInfoMember(members, listSearchMember);
                 break;
             case 6:
-                AddFromFile(members, &nmember);
+                ReadFromFile(members, &nmember);
                 break;
             case 7:
-                AddFile(members, nmember);
+                WriteFile(members, nmember);
                 break;
             case 8:
                 return 0;

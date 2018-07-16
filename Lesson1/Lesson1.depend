@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1530600710 source:d:\study\c\vit_coder\vit-coder-member-manager-gr-1\lesson1\member.cpp
+1531747644 source:d:\study\c\vit_coder\vit-coder-member-manager-gr-1\lesson1\member.cpp
 	"infor.h"
 	"file.h"
 
@@ -9,6 +9,6 @@
 	<stdlib.h>
 	<string.h>
 
-1530600642 d:\study\c\vit_coder\vit-coder-member-manager-gr-1\lesson1\file.h
+1531748148 d:\study\c\vit_coder\vit-coder-member-manager-gr-1\lesson1\file.h
 	"infor.h"
 
