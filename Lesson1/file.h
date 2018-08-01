@@ -3,7 +3,6 @@
 
 #include "infor.h"
 
-
 /*
     doc tu file
 
@@ -25,7 +24,7 @@ int ReadFromFile(InfoMember **members, int *nmember)
 		int id = 0, age = 0, group_id = 0;
 		char name[256], getId[256];
 
-        if (fgets(name, 256, fp) == '\0'){
+        if (fgets(name, 256, fp) == NULL){
         	printf("Error: Loi ten\n");
         	return -2;
 		}
@@ -49,10 +48,14 @@ int ReadFromFile(InfoMember **members, int *nmember)
         strcpy(member->name, name);
         member->age = age;
         member->group_id = group_id;
-
-        members[*nmember] = member;
-        (*nmember)++;
-
+        Adjust(member);
+        if(CheckID(members, member, *nmember)){
+            continue;
+        }
+        else{
+            members[*nmember] = member;
+            (*nmember)++;
+        }
     }
     printf("OK\n");
     return 1;
@@ -66,16 +69,30 @@ int ReadFromFile(InfoMember **members, int *nmember)
 
     return void
 */
-void WriteFile(InfoMember **members, int nmember){
-    FILE *file = fopen("members.txt", "a");
+void WriteFile(InfoMember **members, InfoMember **ListMemFile, int nmember, int *mem){
+    ReadFromFile(ListMemFile, mem);
+    for(int i = 0 ; i < nmember; i++){
+        if(fopen("members.txt", "r") == NULL){
+            FILE *file = fopen("members.txt", "w");
+            if(CheckID(ListMemFile, members[i], *mem)) continue;
+            else{
+                fputs(members[i]->name, file);
+                fprintf(file, "\n%d %d %d", members[i]->id, members[i]->age, members[i]->group_id);
+                fclose(file);
+            }
+        }
+        else{
+            FILE *file = fopen("members.txt", "a");
+            if(CheckID(ListMemFile, members[i], *mem)) continue;
+            else{
+                fprintf(file, "\n");
+                fputs(members[i]->name, file);
+                fprintf(file, "\n%d %d %d", members[i]->id, members[i]->age, members[i]->group_id);
+                fclose(file);
 
-    for(int i=0; i< nmember; i++){
-        if (!feof(file))
-            fprintf(file, "\n");
-        fputs(members[i]->name, file);
-        fprintf(file, "\n%d %d %d", members[i]->id, members[i]->age, members[i]->group_id);
+            }
+        }
     }
-    fclose(file);
     if(nmember==0) printf("Chua co thong tin nao de luu!\n");
     else printf("Luu thong tin thanh cong!\n");
 }

@@ -48,30 +48,24 @@ InfoMember **InitListInfoMember(int length){
     return listMember;
 }
 
-//hiển thị thông tin member
-void ShowInfoMember(InfoMember **member,int length){
-    //in ra màn hình
-    printf("Have %d member:\n", length);
-    printf("%-10s %-20s %-10s %-10s\n", "ID", "Name", "Age", "Group_ID" );
-    for (int i = 0; i < length; i++)
-    {
-        printf("%-10d %-20s %-10d %-10d\n", member[i]->id ,member[i]->name, member[i]->age, member[i]->group_id );
+int CheckID(InfoMember **members, InfoMember *member, int nmember){
+    for(int i = 0; i < nmember; i++){
+        if(members[i]->id == member->id) return 1;
     }
+    return 0;
 }
 
-/* Cac ham CheckLower CheckSpace chu yeu dua tren bo ma ASCII de code
-       - Chu viet hoa co gia tri tu 65 den 90 theo ASCII
-       - Chu viet thuong co gia tri tu 97 den 122 theo ASCII
-       - Chu thuong = chu hoa + 32;
-/* Ham kiem tra va sua loi viet hoa sai vi tri */
+
+//Cac ham CheckLower CheckSpace chu yeu dua tren bo ma ASCII de code
+//Ham kiem tra va sua loi viet hoa sai vi tri
 int CheckLower(InfoMember *member){
     for(int i = 0; i < strlen(member->name); i++){
-        if(member->name[i] == ' ' && member->name[i+1] > 96)
-            member->name[i+1] -= 32; /* sua loi khong viet hoa dau ten */
-        if(member->name[i] > 96 && member->name[i+1] < 96 && member->name[i+1] > 64)
-            member->name[i+1] +=32; /* sua loi viet hoa sai vi tri */
-        if(member->name[i] < 96 && member->name[i] > 64 && member->name[i+1] < 96)
-            member->name[i+1] +=32; /* sua loi viet hoa sai vi tri */
+        if(member->name[i] == ' ' && member->name[i+1] >= 'a')
+            member->name[i+1] -= 'a' - 'A'; /* sua loi khong viet hoa dau ten */
+        else if(member->name[i] >= 'a' && member->name[i+1] <= 'Z' && member->name[i+1] >= 'A')
+            member->name[i+1] += 'a' - 'A'; /* sua loi viet hoa sai vi tri */
+        else if(member->name[i] <= 'Z' && member->name[i] >= 'A' && member->name[i+1] <= 'Z')
+            member->name[i+1] += 'a' - 'A'; /* sua loi viet hoa sai vi tri */
     }
     if(member->name[0] > 96)
         member->name[0] -= 32; /* sua loi khong viet hoa dau ten */
@@ -109,13 +103,21 @@ void Adjust(InfoMember *member){
 }
 
 //nhập bàn phím
-void InputInfoMember(InfoMember *member){
+void InputInfoMember(InfoMember **members, InfoMember *member, int nmember){
     //in màn hình
     printf( "ID: " );
     fflush(stdin);
     scanf( "%d",&member->id );
-    fflush(stdin);
+    if(CheckID(members, member, nmember)){
+        do{
+            printf("ID bi trung vui long nhap lai:\n");
+            printf( "ID: " );
+            fflush(stdin);
+            scanf( "%d",&member->id );
+        }while(CheckID(members, member, nmember));
+    }
     printf( "Name: " );
+    fflush(stdin);
     gets(member->name);
     printf( "Age: " );
     fflush(stdin);
@@ -123,7 +125,6 @@ void InputInfoMember(InfoMember *member){
     printf( "Group_ID: " );
     fflush(stdin);
     scanf( "%d",&member->group_id);
-    Adjust(member);
     //gán vào member
 }
 
