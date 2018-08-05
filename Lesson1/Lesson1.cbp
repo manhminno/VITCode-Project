@@ -31,11 +31,14 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="file.cpp" />
 		<Unit filename="file.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="infor.cpp" />
 		<Unit filename="infor.h" />
-		<Unit filename="member.cpp" />
+		<Unit filename="main.cpp" />
+		<Unit filename="main.h" />
 		<Unit filename="sort.h">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

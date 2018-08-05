@@ -12,18 +12,17 @@
 1531748148 d:\study\c\vit_coder\vit-coder-member-manager-gr-1\lesson1\file.h
 	"infor.h"
 
-1533141791 source:d:\vitcode-project\lesson1\member.cpp
-	"infor.h"
-	"file.h"
+1533225455 source:d:\vitcode-project\lesson1\member.cpp
+	"member.h"
 
-1532885060 d:\vitcode-project\lesson1\infor.h
+1533225455 d:\vitcode-project\lesson1\infor.h
 	<stdio.h>
 	<conio.h>
 	<stdlib.h>
 	<string.h>
 	<ctype.h>
 
-1533120784 d:\vitcode-project\lesson1\file.h
+1533218808 d:\vitcode-project\lesson1\file.h
 	"infor.h"
 
 1533121359 source:d:\lesson1\member.cpp
@@ -39,4 +38,19 @@
 
 1533120784 d:\lesson1\file.h
 	"infor.h"
+
+1533218152 source:d:\vitcode-project\lesson1\file.cpp
+	"file.h"
+
+1533216360 source:d:\vitcode-project\lesson1\infor.cpp
+	"infor.h"
+
+1533225720 source:d:\vitcode-project\lesson1\main.cpp
+	"main.h"
+
+1533224056 d:\vitcode-project\lesson1\member.h
+	"file.h"
+
+1533225854 d:\vitcode-project\lesson1\main.h
+	"file.h"
 
